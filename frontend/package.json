@@ -3,11 +3,19 @@
   "version": "1.0.0",
   "private": true,
   "type": "module",
+  "description": "Frontend for Interview Scheduler - built with React, Vite, and Tailwind CSS",
+  "author": "Harsh Kumar",
+  "license": "MIT",
+  "engines": {
+    "node": ">=16.0.0"
+  },
   "scripts": {
     "dev": "vite",
     "build": "vite build",
     "lint": "eslint . --ext js,jsx --report-unused-disable-directives --max-warnings 0",
-    "preview": "vite preview"
+    "preview": "vite preview",
+    "start": "vite preview",
+    "postinstall": "npm install"
   },
   "dependencies": {
     "@headlessui/react": "^1.7.19",
