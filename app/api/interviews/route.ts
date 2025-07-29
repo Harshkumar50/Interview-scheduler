@@ -1,16 +1,14 @@
 import { type NextRequest, NextResponse } from "next/server"
 import jwt from "jsonwebtoken"
-import { connectDB } from "../../lib/mongodb"
-import Interview from "../../models/Interview"
+import { connectDB } from "@/lib/mongodb"
+import Interview from "@/models/Interview"
 
 export async function GET(request: NextRequest) {
   try {
     const authHeader = request.headers.get("authorization")
     const token = authHeader?.split(" ")[1]
 
-    if (!token) {
-      return NextResponse.json({ message: "No token provided" }, { status: 401 })
-    }
+    if (!token) return NextResponse.json({ message: "No token provided" }, { status: 401 })
 
     const decoded = jwt.verify(token, process.env.JWT_SECRET || "your-secret-key") as { userId: string }
 
@@ -29,9 +27,7 @@ export async function POST(request: NextRequest) {
     const authHeader = request.headers.get("authorization")
     const token = authHeader?.split(" ")[1]
 
-    if (!token) {
-      return NextResponse.json({ message: "No token provided" }, { status: 401 })
-    }
+    if (!token) return NextResponse.json({ message: "No token provided" }, { status: 401 })
 
     const decoded = jwt.verify(token, process.env.JWT_SECRET || "your-secret-key") as { userId: string }
 

@@ -1,16 +1,14 @@
 import { type NextRequest, NextResponse } from "next/server"
 import jwt from "jsonwebtoken"
-import { connectDB } from "../../../lib/mongodb"
-import Interview from "../../../models/Interview"
+import { connectDB } from "@/lib/mongodb"
+import Interview from "@/models/Interview"
 
 export async function PATCH(request: NextRequest, { params }: { params: { id: string } }) {
   try {
     const authHeader = request.headers.get("authorization")
     const token = authHeader?.split(" ")[1]
 
-    if (!token) {
-      return NextResponse.json({ message: "No token provided" }, { status: 401 })
-    }
+    if (!token) return NextResponse.json({ message: "No token provided" }, { status: 401 })
 
     const decoded = jwt.verify(token, process.env.JWT_SECRET || "your-secret-key") as { userId: string }
     const updateData = await request.json()
@@ -20,9 +18,7 @@ export async function PATCH(request: NextRequest, { params }: { params: { id: st
       new: true,
     })
 
-    if (!interview) {
-      return NextResponse.json({ message: "Interview not found" }, { status: 404 })
-    }
+    if (!interview) return NextResponse.json({ message: "Interview not found" }, { status: 404 })
 
     return NextResponse.json(interview)
   } catch (error) {
@@ -36,9 +32,7 @@ export async function DELETE(request: NextRequest, { params }: { params: { id: s
     const authHeader = request.headers.get("authorization")
     const token = authHeader?.split(" ")[1]
 
-    if (!token) {
-      return NextResponse.json({ message: "No token provided" }, { status: 401 })
-    }
+    if (!token) return NextResponse.json({ message: "No token provided" }, { status: 401 })
 
     const decoded = jwt.verify(token, process.env.JWT_SECRET || "your-secret-key") as { userId: string }
 
@@ -48,9 +42,7 @@ export async function DELETE(request: NextRequest, { params }: { params: { id: s
       createdBy: decoded.userId,
     })
 
-    if (!interview) {
-      return NextResponse.json({ message: "Interview not found" }, { status: 404 })
-    }
+    if (!interview) return NextResponse.json({ message: "Interview not found" }, { status: 404 })
 
     return NextResponse.json({ message: "Interview deleted successfully" })
   } catch (error) {
